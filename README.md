@@ -63,6 +63,7 @@ docker-compose up
 4.  Ensure `TG_API_ID` and `TG_API_HASH` are taken from a **user** application created on [my.telegram.org](https://my.telegram.org) and not from a bot. Otherwise login will fail.
 5.  During image build the latest Telethon is installed automatically. If you build images manually, update Telethon with `pip install -U telethon`.
 
+
 Use the **sender** service endpoints to send messages from your server to Telegram.
 
 **Sender** service API can be found on http://0.0.0.0:8001 and docs on http://0.0.0.0:8001/docs
