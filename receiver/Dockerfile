@@ -8,6 +8,9 @@ WORKDIR /receiver
 
 COPY ./pyproject.toml /receiver/
 COPY ./poetry.lock /receiver/
-RUN pip install poetry && poetry config virtualenvs.create false && poetry install --no-root
+
+RUN pip install poetry && poetry config virtualenvs.create false && \
+    poetry install --no-root && \
+    pip install --no-cache-dir -U telethon
 
 COPY ./ /receiver
