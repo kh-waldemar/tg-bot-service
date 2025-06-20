@@ -56,8 +56,8 @@ docker-compose up
 
 ### Configuration
 
-1.  Copy `.env.example` to `.env`, populate your Telegram API credentials, session name and phone number and place the file in the repository root (next to `docker-compose.yml`).
-2.  Specify `WEBHOOK_URL` where incoming messages will be forwarded.
+1.  Copy `.env.example` to `.env`, populate your Telegram API credentials, session name, phone number and webhook information. Keep the file in the repository root next to `docker-compose.yml`.
+2.  Docker Compose loads this file automatically for both services (see `env_file` in `docker-compose.yml`). No extra flags are needed.
 3.  Run the services with `docker-compose up`. When `receiver` starts for the first time it will prompt for the Telegram code to complete login.
    Subsequent runs will reuse the saved session file.
 
