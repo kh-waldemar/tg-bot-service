@@ -8,4 +8,5 @@ bot = TelegramClient(
     api_hash=settings.TG_API_HASH,
 )
 
-bot.start(phone=settings.TG_PHONE_NUMBER)
+# `start` is called explicitly in `receiver/main.py` so that the login prompts
+# appear in the container's console when the service launches.
