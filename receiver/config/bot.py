@@ -6,4 +6,6 @@ bot = TelegramClient(
     session=settings.TG_SESSION_NAME,
     api_id=settings.TG_API_ID,
     api_hash=settings.TG_API_HASH,
-).start(bot_token=settings.TG_BOT_TOKEN)
+)
+
+bot.start(phone=settings.TG_PHONE_NUMBER)

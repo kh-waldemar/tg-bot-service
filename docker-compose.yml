@@ -6,6 +6,8 @@ services:
         build:
             context: ./sender
             dockerfile: Dockerfile
+        env_file:
+          - .env
         ports:
           - 8001:8000
         volumes:
@@ -16,6 +18,8 @@ services:
         build:
             context: ./receiver
             dockerfile: Dockerfile
+        env_file:
+          - .env
         volumes:
           - ./receiver:/receiver
         tty: true
