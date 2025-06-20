@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 
 from pydantic import BaseSettings
 
@@ -26,7 +27,7 @@ class Settings(BaseSettings):
         )
 
     class Config:
-        env_file = '.env'
+        env_file = Path(__file__).resolve().parents[2] / '.env'
         case_sensitive = True
 
 
