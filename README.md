@@ -54,6 +54,15 @@ And start up services:
 docker-compose up
 ```
 
+### Configuration
+
+1.  Copy `.env.example` to `.env`, populate your Telegram API credentials, session name and phone number and place the file in the repository root (next to `docker-compose.yml`).
+2.  Specify `WEBHOOK_URL` where incoming messages will be forwarded.
+3.  Run the services with `docker-compose up`. When `receiver` starts for the first time it will prompt for the Telegram code to complete login.
+   Subsequent runs will reuse the saved session file.
+
+Use the **sender** service endpoints to send messages from your server to Telegram.
+
 **Sender** service API can be found on http://0.0.0.0:8001 and docs on http://0.0.0.0:8001/docs
 
 
