@@ -8,6 +8,6 @@ WORKDIR /sender
 
 COPY ./pyproject.toml /sender/
 COPY ./poetry.lock /sender/
-RUN pip install poetry && poetry config virtualenvs.create false && poetry install
+RUN pip install poetry && poetry config virtualenvs.create false && poetry install --no-root
 
 COPY ./ /sender

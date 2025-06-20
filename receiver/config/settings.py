@@ -6,7 +6,7 @@ from pydantic import BaseSettings
 class Settings(BaseSettings):
     PROJECT_NAME: str = 'tg-bot-service-receiver'
 
-    TG_API_ID: str = 'tg-api-id'
+    TG_API_ID: int = 0
     TG_API_HASH: str = 'tg-api-hash'
     TG_SESSION_NAME: str = 'tg_session_receiver'
     TG_PHONE_NUMBER: str = '+10000000000'
