@@ -1,4 +1,5 @@
 import secrets
+from pathlib import Path
 
 from pydantic import BaseSettings
 
@@ -18,7 +19,7 @@ class Settings(BaseSettings):
     TG_FILES_CHAT_ID: int = 0
 
     class Config:
-        env_file = '.env'
+        env_file = Path(__file__).resolve().parents[3] / '.env'
         case_sensitive = True
 
 
