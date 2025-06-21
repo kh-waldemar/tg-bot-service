@@ -10,4 +10,4 @@ async def bot_init() -> TelegramClient:
         api_hash=settings.TG_API_HASH,
     )
 
-    return await bot.start(bot_token=settings.TG_BOT_TOKEN)
+    return await bot.start(phone=settings.TG_PHONE_NUMBER)
