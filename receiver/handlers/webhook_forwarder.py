@@ -9,7 +9,6 @@ from api_driver import GatewayAPIDriver
 from config import bot, settings
 
 
-
 MEDIA_DIR = Path(__file__).resolve().parents[1] / 'media'
 
 

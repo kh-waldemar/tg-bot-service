@@ -12,6 +12,7 @@ services:
           - 8001:8000
         volumes:
           - ./sender:/sender
+          - ./sessions:/sessions
         tty: true
     receiver:
         command: sh -c "python3 main.py"
@@ -22,5 +23,6 @@ services:
           - .env
         volumes:
           - ./receiver:/receiver
+          - ./sessions:/sessions
         tty: true
         stdin_open: true
