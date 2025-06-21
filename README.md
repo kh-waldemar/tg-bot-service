@@ -64,6 +64,7 @@ docker-compose up
 5.  During image build the latest Telethon is installed automatically. If you build images manually, update Telethon with `pip install -U telethon`.
 6.  Expose the `receiver/media/` directory through your web server so files can be accessed via `PUBLIC_BASE_URL`.
 
+
 Use the **sender** service endpoints to send messages from your server to Telegram.
 
 **Sender** service API can be found on http://0.0.0.0:8001 and docs on http://0.0.0.0:8001/docs
