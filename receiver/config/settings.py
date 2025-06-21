@@ -14,6 +14,7 @@ class Settings(BaseSettings):
 
     WEBHOOK_URL: str = 'https://some.host/webhook'
     WEBHOOK_API_KEY: str = 'secret-api-key'
+    PUBLIC_BASE_URL: str = 'https://example.com'
 
 
     LOGS_DIR: str = 'logs/'

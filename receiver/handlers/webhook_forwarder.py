@@ -1,11 +1,16 @@
 from datetime import date, datetime
 
+from pathlib import Path
+
 from telethon import events
 from telethon.utils import pack_bot_file_id
 
-
 from api_driver import GatewayAPIDriver
 from config import bot, settings
+
+
+
+MEDIA_DIR = Path(__file__).resolve().parents[1] / 'media'
 
 
 @bot.on(events.NewMessage)
@@ -28,6 +33,7 @@ async def forward_all_messages(event) -> None:
     msg = event.message
 
     media = None
+    media_url = None
     if msg.media:
         media_type = None
         if msg.voice:
@@ -46,6 +52,14 @@ async def forward_all_messages(event) -> None:
         except Exception:
             file_id = None
 
+        ext = msg.file.ext or '.bin'
+        if not ext.startswith('.'):
+            ext = '.' + ext
+        filename = f"{msg.id}_{media_type}{ext}"
+        MEDIA_DIR.mkdir(exist_ok=True)
+        await msg.download_media(file=MEDIA_DIR / filename)
+        media_url = f"{settings.PUBLIC_BASE_URL.rstrip('/')}/media/{filename}"
+
         media = {"type": media_type, "file_id": file_id}
 
     message_dict = {
@@ -54,6 +68,7 @@ async def forward_all_messages(event) -> None:
         "date": msg.date.isoformat(),
         "text": msg.message,
         "media": media,
+        "media_url": media_url,
         "from": user_info,
     }
 
