@@ -57,7 +57,6 @@ docker-compose up
 ### Configuration
 
 1.  Copy `.env.example` to `.env`, populate your Telegram API credentials, session name, phone number, webhook information and `PUBLIC_BASE_URL`. Keep the file in the repository root next to `docker-compose.yml`.
-
 2.  Create an empty `sessions/` directory next to the compose file. Docker Compose mounts this path into both services so they share one Telethon session.
    In your `.env` set `TG_SESSION_NAME=/sessions/tg_userbot` (or any name inside `/sessions`).
 3.  Docker Compose loads the `.env` file automatically for both services (see `env_file` in `docker-compose.yml`).

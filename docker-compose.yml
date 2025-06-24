@@ -22,7 +22,6 @@ services:
         env_file:
           - .env
         volumes:
-          - ./receiver:/receiver
           - ./sessions:/sessions
         tty: true
         stdin_open: true
