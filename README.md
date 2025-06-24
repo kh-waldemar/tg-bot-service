@@ -54,6 +54,20 @@ And start up services:
 docker-compose up
 ```
 
+### Configuration
+
+1.  Copy `.env.example` to `.env`, populate your Telegram API credentials, session name, phone number, webhook information and `PUBLIC_BASE_URL`. Keep the file in the repository root next to `docker-compose.yml`.
+2.  Create an empty `sessions/` directory next to the compose file. Docker Compose mounts this path into both services so they share one Telethon session.
+   In your `.env` set `TG_SESSION_NAME=/sessions/tg_userbot` (or any name inside `/sessions`).
+3.  Docker Compose loads the `.env` file automatically for both services (see `env_file` in `docker-compose.yml`).
+4.  Run the services with `docker-compose up`. When `receiver` starts for the first time it will prompt for the Telegram code (and 2FA password if enabled).
+   Enter the values directly in the compose terminal. Subsequent runs will reuse the saved session file from `sessions/`.
+5.  Ensure `TG_API_ID` and `TG_API_HASH` are taken from a **user** application created on [my.telegram.org](https://my.telegram.org) and not from a bot. Otherwise login will fail.
+6.  During image build the latest Telethon is installed automatically. If you build images manually, update Telethon with `pip install -U telethon`.
+7.  Expose the `receiver/media/` directory through your web server so files can be accessed via `PUBLIC_BASE_URL`.
+
+Use the **sender** service endpoints to send messages from your server to Telegram.
+
 **Sender** service API can be found on http://0.0.0.0:8001 and docs on http://0.0.0.0:8001/docs
 
 
