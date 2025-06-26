@@ -18,13 +18,17 @@ Basis for extendable, high-performance Telegram Bot microservice.
 - Logger for API Driver [Native Python Logger] - to monitor and log each request and response. Additionally, keeps logs in files to use with monitoring tools, such as ELK, Prometheus+Grafana, etc.
 
 ### Sender Service
-- Async API [FastAPI] - receive requests from other services. Endpoints:
-    * `/api_v1/send_message` - send plain message to user
-    * `/api_v1/send_multiple_message` - send multiple messages to multiple users
-    * `/api_v1/create_document` - create document on Telegram Servers and receive its ID, to later reuse
-    * `/api_v1/send_document` - send document by Telegram ID
-    * `/api_v1/send_multiple_documents` - send multiple documents to multiple users
-- Sender [Telethon] - Telegram Client that will be triggered to execute some business logic after successful processing of request received by API, in other words to send updates to user.
+- REST API built with FastAPI. Methods mimic the [Telegram Bot API](https://core.telegram.org/bots/api):
+    * `POST /api_v1/sendMessage`
+    * `POST /api_v1/sendPhoto`
+    * `POST /api_v1/sendDocument`
+    * `POST /api_v1/sendAudio`
+    * `POST /api_v1/sendVoice`
+    * `POST /api_v1/sendVideo`
+    * `POST /api_v1/editMessageText`
+    * `POST /api_v1/deleteMessage`
+- Each request must include `x-api-key` header matching `X_API_TOKEN` from `.env`.
+- Sender uses Telethon to act as a user account.
 
 
 ## Whole Service Workflow
@@ -60,11 +64,12 @@ docker-compose up
 2.  Create an empty `sessions/` directory next to the compose file. Docker Compose mounts this path into both services so they share one Telethon session.
    In your `.env` set `TG_SESSION_NAME=/sessions/tg_userbot` (or any name inside `/sessions`).
 3.  Docker Compose loads the `.env` file automatically for both services (see `env_file` in `docker-compose.yml`).
-4.  Run the services with `docker-compose up`. When `receiver` starts for the first time it will prompt for the Telegram code (and 2FA password if enabled).
+4.  Set `X_API_TOKEN` in `.env` and include this token in the `x-api-key` header when calling the sender API.
+5.  Run the services with `docker-compose up`. When `receiver` starts for the first time it will prompt for the Telegram code (and 2FA password if enabled).
    Enter the values directly in the compose terminal. Subsequent runs will reuse the saved session file from `sessions/`.
-5.  Ensure `TG_API_ID` and `TG_API_HASH` are taken from a **user** application created on [my.telegram.org](https://my.telegram.org) and not from a bot. Otherwise login will fail.
-6.  During image build the latest Telethon is installed automatically. If you build images manually, update Telethon with `pip install -U telethon`.
-7.  Expose the `receiver/media/` directory through your web server so files can be accessed via `PUBLIC_BASE_URL`.
+6.  Ensure `TG_API_ID` and `TG_API_HASH` are taken from a **user** application created on [my.telegram.org](https://my.telegram.org) and not from a bot. Otherwise login will fail.
+7.  During image build the latest Telethon is installed automatically. If you build images manually, update Telethon with `pip install -U telethon`.
+8.  Expose the `receiver/media/` directory through your web server so files can be accessed via `PUBLIC_BASE_URL`.
 
 Use the **sender** service endpoints to send messages from your server to Telegram.
 
