@@ -23,5 +23,6 @@ services:
           - .env
         volumes:
           - ./sessions:/sessions
+          - /srv/filebrowser/userbot_media:/receiver/media
         tty: true
         stdin_open: true
