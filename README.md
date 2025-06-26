@@ -76,6 +76,41 @@ Use the **sender** service endpoints to send messages from your server to Telegr
 
 **Sender** service API can be found on http://0.0.0.0:8001 and docs on http://0.0.0.0:8001/docs
 
+### Example webhook payload
+
+When a user replies to a message, the receiver forwards the update to the configured webhook with the following structure:
+
+```json
+{
+  "account_phone_number": "+10000000000",
+  "message": {
+    "message_id": 2345,
+    "chat": {"id": 1111111},
+    "date": "2023-01-01T12:00:00",
+    "text": "Це відповідь",
+    "media": null,
+    "media_url": null,
+    "from": {
+      "id": 777000,
+      "first_name": "User",
+      "last_name": null,
+      "username": "user",
+      "language_code": "en",
+      "phone_number": null
+    },
+    "reply_to_message": {
+      "message_id": 1234,
+      "text": "Оригінальне повідомлення",
+      "media_url": "https://example.com/media/1234_photo.jpg",
+      "media_type": "photo",
+      "sender_id": 1111111,
+      "sender_name": "Other",
+      "date": "2023-01-01T11:59:00"
+    }
+  }
+}
+```
+
 
 ## Enhancement, contribution, and feedback
 Any feedback or contribution to the project is eagerly welcomed. Just create an issue or contact me on ki.xbozz@gmail.com.
