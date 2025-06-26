@@ -6,17 +6,23 @@ services:
         build:
             context: ./sender
             dockerfile: Dockerfile
+        env_file:
+          - .env
         ports:
           - 8001:8000
         volumes:
           - ./sender:/sender
+          - ./sessions:/sessions
         tty: true
     receiver:
         command: sh -c "python3 main.py"
         build:
             context: ./receiver
             dockerfile: Dockerfile
+        env_file:
+          - .env
         volumes:
-          - ./receiver:/receiver
+          - ./sessions:/sessions
+          - /srv/filebrowser/userbot_media:/receiver/media
         tty: true
         stdin_open: true
