@@ -1,31 +1,15 @@
-version: '3.8'
-
 services:
-    sender:
-        command: sh -c "uvicorn app.main:app --reload --host 0.0.0.0"
-        build:
-            context: ./sender
-            dockerfile: Dockerfile
-        env_file:
-          - .env
-        ports:
-          - 8001:8000
-        volumes:
-          - ./sender:/sender
-          - ./sessions:/sessions
-          - ./receiver/media:/media:ro
-        tty: true
-    receiver:
-        command: sh -c "python3 main.py & python3 media_server.py"
-        build:
-            context: .
-            dockerfile: receiver/Dockerfile
-        env_file:
-          - .env
-        volumes:
-          - ./sessions:/sessions
-          - ./receiver/media:/receiver/media
-        ports:
-          - 8181:8082
-        tty: true
-        stdin_open: true
+  sender:
+    build:
+      context: ./sender
+    ports:
+      - "8001:8001"
+    restart: unless-stopped
+  receiver:
+    build:
+      context: ./receiver
+    ports:
+      - "8002:8002"
+    restart: unless-stopped
+    depends_on:
+      - sender

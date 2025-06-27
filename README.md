@@ -47,42 +47,24 @@ Thus, we have fully autonomous, loosely-coupled microservice.
 ![workflow_scheme](diagrams/architecture.jpg)
 
 
-## How to Use
+## Deployment
 
-Root directory has docker-compose file through which whole microservice can be started. But firstly, build images:
-```shell
-docker-compose build
-```
-And start up services:
-```shell
-docker-compose up
+To start the service simply run:
+```bash
+docker compose up -d --build
 ```
 
-The receiver will serve downloaded files on `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_MEDIA_PORT>/media`. Media links in webhook payloads are generated automatically using these variables.
+1. Copy `.env.example` to `.env` and fill in your Telegram credentials.
+2. Access the API at `http://localhost:8001`.
+3. Media files are served at `http://localhost:8002/media/`.
 
-### Configuration
-
-1.  Copy `.env.example` to `.env`, populate your Telegram API credentials, session name, phone number, webhook information and public domain settings (`PUBLIC_MEDIA_HOST`, `PUBLIC_MEDIA_PORT`). Keep the file in the repository root next to `docker-compose.yml`.
-2.  Create an empty `sessions/` directory next to the compose file. Docker Compose mounts this path into both services so they share one Telethon session.
-   In your `.env` set `TG_SESSION_NAME=/sessions/tg_userbot` (or any name inside `/sessions`).
-3.  Ensure the `receiver/media` directory exists. Docker Compose mounts this path
-   into both services so that downloaded files persist and can be served over HTTP
-   at `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_MEDIA_PORT>/media/<filename>`.
-4.  Docker Compose loads the `.env` file automatically for both services (see
-   `env_file` in `docker-compose.yml`).
-5.  Set `X_API_TOKEN` in `.env` and include this token in the `x-api-key` header when calling the sender API.
-6.  Run the services with `docker-compose up`. When `receiver` starts for the first time it will prompt for the Telegram code (and 2FA password if enabled).
-   Enter the values directly in the compose terminal. Subsequent runs will reuse the saved session file from `sessions/`.
-7.  Ensure `TG_API_ID` and `TG_API_HASH` are taken from a **user** application created on [my.telegram.org](https://my.telegram.org) and not from a bot. Otherwise login will fail.
-8.  During image build the latest Telethon is installed automatically. If you build images manually, update Telethon with `pip install -U telethon`.
-9.  Media files are served directly by the receiver service on port `8181`, making
-   any downloaded files reachable as
-   `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_MEDIA_PORT>/media/<filename>` without any
-   extra web server.
-
-Use the **sender** service endpoints to send messages from your server to Telegram.
-
-**Sender** service API can be found on http://0.0.0.0:8001 and docs on http://0.0.0.0:8001/docs
+Example request:
+```bash
+curl -X POST http://localhost:8001/api_v1/sendMessage \
+  -H "x-api-key: <your_key>" \
+  -H "Content-Type: application/json" \
+  -d '{"chat_id": 123456789, "text": "Привіт!"}'
+```
 
 ### Example webhook payload
 
@@ -109,7 +91,7 @@ When a user replies to a message, the receiver forwards the update to the config
     "reply_to_message": {
       "message_id": 1234,
       "text": "Оригінальне повідомлення",
-      "media_url": "http://example.com:8181/media/1234_photo.jpg",
+      "media_url": "http://example.com:8002/media/1234_photo.jpg",
       "media_type": "photo",
       "sender_id": 1111111,
       "sender_name": "Other",

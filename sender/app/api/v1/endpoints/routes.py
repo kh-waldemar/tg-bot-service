@@ -9,7 +9,7 @@ from fastapi import APIRouter, status, Depends, HTTPException
 
 from app import schemas
 from app.api.deps import verify_api_key
-from app.config import bot_init
+from app.config import bot_init, settings
 
 TMP_DIR = Path("/tmp/userbot-api")
 TMP_DIR.mkdir(parents=True, exist_ok=True)
@@ -58,7 +58,10 @@ async def _send_media(chat_id: int, file_src: str, caption: Optional[str]) -> di
     file_path = await _download_file(file_src)
     async with await bot_init() as bot:
         msg = await bot.send_file(chat_id, file_path, caption=caption)
-    return _serialize_message(msg) | {"file_name": file_path.name}
+    return _serialize_message(msg) | {
+        "file_name": file_path.name,
+        "file_url": f"{settings.PUBLIC_BASE_URL}/media/{file_path.name}"
+    }
 
 
 @router.post("/sendPhoto")
