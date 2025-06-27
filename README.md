@@ -63,14 +63,19 @@ docker-compose up
 1.  Copy `.env.example` to `.env`, populate your Telegram API credentials, session name, phone number, webhook information and `PUBLIC_BASE_URL`. Keep the file in the repository root next to `docker-compose.yml`.
 2.  Create an empty `sessions/` directory next to the compose file. Docker Compose mounts this path into both services so they share one Telethon session.
    In your `.env` set `TG_SESSION_NAME=/sessions/tg_userbot` (or any name inside `/sessions`).
-3.  Create a host directory `/srv/filebrowser/userbot_media` and make it publicly available via your web server. Files saved there will be accessible as `{PUBLIC_BASE_URL}/media/<filename>`.
-4.  Docker Compose loads the `.env` file automatically for both services (see `env_file` in `docker-compose.yml`).
+3.  Create a host directory `/srv/filebrowser/userbot_media`. This path is mounted
+   into both services and is served by the `sender` API at `/media` so media URLs
+   like `{PUBLIC_BASE_URL}/media/<filename>` become accessible in a browser.
+4.  Docker Compose loads the `.env` file automatically for both services (see
+   `env_file` in `docker-compose.yml`).
 5.  Set `X_API_TOKEN` in `.env` and include this token in the `x-api-key` header when calling the sender API.
 6.  Run the services with `docker-compose up`. When `receiver` starts for the first time it will prompt for the Telegram code (and 2FA password if enabled).
    Enter the values directly in the compose terminal. Subsequent runs will reuse the saved session file from `sessions/`.
 7.  Ensure `TG_API_ID` and `TG_API_HASH` are taken from a **user** application created on [my.telegram.org](https://my.telegram.org) and not from a bot. Otherwise login will fail.
 8.  During image build the latest Telethon is installed automatically. If you build images manually, update Telethon with `pip install -U telethon`.
-9.  The `/srv/filebrowser/userbot_media` directory is mounted into the receiver container at `/receiver/media`, so exposing this path allows `media_url` to work correctly.
+9.  The `/srv/filebrowser/userbot_media` directory is mounted into both containers
+   and served by the sender service. This makes any downloaded files reachable
+   as `{PUBLIC_BASE_URL}/media/<filename>` without additional web server setup.
 
 Use the **sender** service endpoints to send messages from your server to Telegram.
 
