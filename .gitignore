@@ -146,6 +146,10 @@ Thumbs.db #thumbnail cache on Windows
 
 # telethon sessions
 tg_session*
+__pycache__/
+*.pyc
+.venv/
+.mypy_cache/
 sessions/*.session
 userbot_media/*
 !userbot_media/.gitkeep
