@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     TG_FILES_CHAT_ID: int = 0
 
     MEDIA_DIR: str = "/media"
+    PUBLIC_BASE_URL: str = "https://example.com"
 
     class Config:
         env_file = Path(__file__).resolve().parents[3] / '.env'

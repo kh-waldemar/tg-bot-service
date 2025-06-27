@@ -65,7 +65,7 @@ The receiver will serve downloaded files on `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_
 1.  Copy `.env.example` to `.env`, populate your Telegram API credentials, session name, phone number, webhook information and public domain settings (`PUBLIC_MEDIA_HOST`, `PUBLIC_MEDIA_PORT`). Keep the file in the repository root next to `docker-compose.yml`.
 2.  Create an empty `sessions/` directory next to the compose file. Docker Compose mounts this path into both services so they share one Telethon session.
    In your `.env` set `TG_SESSION_NAME=/sessions/tg_userbot` (or any name inside `/sessions`).
-3.  Ensure the `receiver/media` directory exists. Docker Compose mounts this path
+3.  Ensure the `userbot_media` directory exists. Docker Compose mounts this path
    into both services so that downloaded files persist and can be served over HTTP
    at `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_MEDIA_PORT>/media/<filename>`.
 4.  Docker Compose loads the `.env` file automatically for both services (see
