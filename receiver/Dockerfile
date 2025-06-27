@@ -10,6 +10,7 @@ COPY ./receiver/pyproject.toml /receiver/
 COPY ./receiver/poetry.lock /receiver/
 RUN pip install poetry && poetry config virtualenvs.create false && \
     poetry install --no-root && \
-    pip install --no-cache-dir -U telethon
+    pip install --no-cache-dir -U telethon && \
+    pip install flask
 
 COPY ./receiver /receiver

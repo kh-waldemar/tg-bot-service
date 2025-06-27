@@ -57,7 +57,9 @@ async def forward_all_messages(event) -> None:
         filename = f"{msg.id}_{media_type}{ext}"
         MEDIA_DIR.mkdir(exist_ok=True)
         await msg.download_media(file=MEDIA_DIR / filename)
-        media_url = f"{settings.PUBLIC_BASE_URL.rstrip('/')}/media/{filename}"
+        media_url = (
+            f"http://{settings.PUBLIC_MEDIA_HOST}:{settings.PUBLIC_MEDIA_PORT}/media/{filename}"
+        )
 
         media = {"type": media_type, "file_id": file_id}
 
@@ -86,7 +88,9 @@ async def forward_all_messages(event) -> None:
             filename = f"{reply_msg.id}_{r_media_type}{ext}"
             MEDIA_DIR.mkdir(exist_ok=True)
             await reply_msg.download_media(file=MEDIA_DIR / filename)
-            r_media_url = f"{settings.PUBLIC_BASE_URL.rstrip('/')}/media/{filename}"
+            r_media_url = (
+                f"http://{settings.PUBLIC_MEDIA_HOST}:{settings.PUBLIC_MEDIA_PORT}/media/{filename}"
+            )
 
         reply_to_message = {
             "message_id": reply_msg.id,
