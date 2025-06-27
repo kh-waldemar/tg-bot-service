@@ -18,6 +18,8 @@ class Settings(BaseSettings):
 
     TG_FILES_CHAT_ID: int = 0
 
+    MEDIA_DIR: str = "/media"
+
     class Config:
         env_file = Path(__file__).resolve().parents[3] / '.env'
         case_sensitive = True

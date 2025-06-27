@@ -6,10 +6,10 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir /receiver && apt-get update
 WORKDIR /receiver
 
-COPY ./pyproject.toml /receiver/
-COPY ./poetry.lock /receiver/
+COPY ./receiver/pyproject.toml /receiver/
+COPY ./receiver/poetry.lock /receiver/
 RUN pip install poetry && poetry config virtualenvs.create false && \
     poetry install --no-root && \
     pip install --no-cache-dir -U telethon
 
-COPY ./ /receiver
+COPY ./receiver /receiver
