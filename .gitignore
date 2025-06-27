@@ -147,5 +147,5 @@ Thumbs.db #thumbnail cache on Windows
 # telethon sessions
 tg_session*
 sessions/*.session
-receiver/media/*
-!receiver/media/.gitkeep
+userbot_media/*
+!userbot_media/.gitkeep

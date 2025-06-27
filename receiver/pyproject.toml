@@ -5,12 +5,14 @@ description = ""
 authors = ["raisultan <ki.xbozz@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "3.9.0"
+python = ">=3.9,<4.0"
 Telethon = "1.21.1"
 pydantic = "1.8.1"
 httpx = "0.17.1"
 cryptg = "^0.2.post2"
 Pillow = "8.2.0"
+aiofiles = "^23.2.1"
+flask = "^3.0.0"
 
 [tool.poetry.dev-dependencies]
 
