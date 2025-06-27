@@ -13,10 +13,10 @@ services:
         volumes:
           - ./sender:/sender
           - ./sessions:/sessions
-          - /srv/filebrowser/userbot_media:/media:ro
+          - ./receiver/media:/media:ro
         tty: true
     receiver:
-        command: sh -c "python3 main.py"
+        command: sh -c "python3 main.py & python3 media_server.py"
         build:
             context: .
             dockerfile: receiver/Dockerfile
@@ -24,6 +24,8 @@ services:
           - .env
         volumes:
           - ./sessions:/sessions
-          - /srv/filebrowser/userbot_media:/receiver/media
+          - ./receiver/media:/receiver/media
+        ports:
+          - 8181:8082
         tty: true
         stdin_open: true

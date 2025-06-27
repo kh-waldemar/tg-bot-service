@@ -15,6 +15,8 @@ class Settings(BaseSettings):
     WEBHOOK_URL: str = 'https://some.host/webhook'
     WEBHOOK_API_KEY: str = 'secret-api-key'
     PUBLIC_BASE_URL: str = 'https://example.com'
+    PUBLIC_MEDIA_HOST: str = 'userbot.zhito-systems.work'
+    PUBLIC_MEDIA_PORT: int = 8181
 
 
     LOGS_DIR: str = 'logs/'
