@@ -3,7 +3,7 @@ import asyncio
 
 from config import bot, settings
 
-from handlers import *  # noqa: F401,F403 - register event handlers
+from handlers import register_handlers
 
 
 def _ask_code() -> str:
@@ -30,6 +30,10 @@ async def main() -> None:
         password=_ask_password,
     )
     print(f'[+] Using session {session_file}')
+
+    # Import handlers after the client has started to ensure they register
+    register_handlers()
+    print("Bot is fully running and listening for messages!")
 
     print('Bot is running!')
     await bot.run_until_disconnected()
