@@ -13,6 +13,9 @@ def load_env(path: Path) -> None:
             if not line or line.startswith('#') or '=' not in line:
                 continue
             key, _, value = line.partition('=')
+            # Remove any inline comments like ``VALUE  # comment`` and trim
+            # whitespace so values match what Docker Compose will load.
+            value = value.split('#', 1)[0].strip()
             os.environ.setdefault(key, value)
 
 
