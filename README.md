@@ -59,6 +59,11 @@ And start up services:
 docker-compose up
 ```
 
+For convenience you may also run the helper script:
+```shell
+./deploy/deploy.sh
+```
+
 The receiver will serve downloaded files on `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_MEDIA_PORT>/media`. Media links in webhook payloads are generated automatically using these variables.
 
 ### Configuration
@@ -72,7 +77,7 @@ The receiver will serve downloaded files on `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_
 4.  Docker Compose loads the `.env` file automatically for both services (see
    `env_file` in `docker-compose.yml`).
 5.  Set `X_API_TOKEN` in `.env` and include this token in the `x-api-key` header when calling the sender API.
-6.  You can pre-create a session by running `python init_session.py` once
+6.  You can pre-create a session by running `python3 init_session.py` once
     outside of Docker.  The script reads credentials from `.env` and always
     stores the session file inside `sessions/` in the repository so it will be
     mounted into the containers.  Any absolute `/sessions/<name>` path from the
