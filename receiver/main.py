@@ -20,10 +20,16 @@ if __name__ == '__main__':
         print(f'[!] Session file {session_file} not found. Run init_session.py first.')
         raise SystemExit(1)
 
-    bot.start(
-        phone=settings.TG_PHONE_NUMBER,
-        code_callback=_ask_code,
-        password=_ask_password,
-    )
+    bot.connect()
+
+    if not bot.is_user_authorized():
+        bot.start(
+            phone=settings.TG_PHONE_NUMBER,
+            code_callback=_ask_code,
+            password=_ask_password,
+        )
+    else:
+        print(f'[+] Reusing existing session {session_file}')
+
     print('Bot is running!')
     bot.run_until_disconnected()
