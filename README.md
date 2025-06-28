@@ -53,6 +53,7 @@ Root directory has docker-compose file through which whole microservice can be s
 ```shell
 docker-compose build
 ```
+The Dockerfiles run `poetry install` during build and automatically generate `poetry.lock` inside the containers. This prevents errors about a missing or outdated lock file when you clone the repository.
 And start up services:
 ```shell
 docker-compose up
