@@ -72,11 +72,14 @@ The receiver will serve downloaded files on `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_
 4.  Docker Compose loads the `.env` file automatically for both services (see
    `env_file` in `docker-compose.yml`).
 5.  Set `X_API_TOKEN` in `.env` and include this token in the `x-api-key` header when calling the sender API.
-6.  Run the services with `docker-compose up`. When `receiver` starts for the first time it will prompt for the Telegram code (and 2FA password if enabled).
-   Enter the values directly in the compose terminal. Subsequent runs will reuse the saved session file from `sessions/`.
-7.  Ensure `TG_API_ID` and `TG_API_HASH` are taken from a **user** application created on [my.telegram.org](https://my.telegram.org) and not from a bot. Otherwise login will fail.
-8.  During image build the latest Telethon is installed automatically. If you build images manually, update Telethon with `pip install -U telethon`.
-9.  Media files are served directly by the receiver service on port `8181`, making
+6.  Run `python init_session.py` once locally to create the Telegram session. The
+   script reads credentials from `.env` and saves the session file inside
+   `sessions/`.
+7.  Start the services with `docker-compose up`. They will reuse the saved
+   session file without prompting for the code again.
+8.  Ensure `TG_API_ID` and `TG_API_HASH` are taken from a **user** application created on [my.telegram.org](https://my.telegram.org) and not from a bot. Otherwise login will fail.
+9.  During image build the latest Telethon is installed automatically. If you build images manually, update Telethon with `pip install -U telethon`.
+10.  Media files are served directly by the receiver service on port `8181`, making
    any downloaded files reachable as
    `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_MEDIA_PORT>/media/<filename>` without any
    extra web server.
