@@ -1,24 +1,6 @@
 # Telegram Bot Microservice
 Basis for extendable, high-performance Telegram Bot microservice.
 
-## ⚡ Швидкий старт
-1. Клонуйте репозиторій та перейдіть у каталог проекту
-   ```bash
-   git clone <repo-url> && cd tg-bot-service
-   ```
-2. Скопіюйте `.env.example` у `.env` та заповніть свої дані
-   ```bash
-   cp .env.example .env
-   ```
-3. Створіть каталоги для сесій та медіа
-   ```bash
-   mkdir -p sessions receiver/media
-   ```
-4. Запустіть сервіси
-   ```bash
-   docker compose up -d --build
-   ```
-5. Перевірте API відправника на [http://localhost:8001/docs](http://localhost:8001/docs)
 
 ## Tech Stack
 - FastAPI

@@ -8,11 +8,8 @@ WORKDIR /sender
 
 COPY ./pyproject.toml /sender/
 COPY ./poetry.lock /sender/
-RUN pip install poetry && \
-    poetry config virtualenvs.create false && \
+RUN pip install poetry && poetry config virtualenvs.create false && \
     poetry install --no-root && \
     pip install --no-cache-dir -U telethon
 
 COPY ./ /sender
-
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
