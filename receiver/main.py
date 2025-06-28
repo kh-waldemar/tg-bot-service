@@ -21,8 +21,10 @@ async def main() -> None:
     """Start the Telegram client and run until disconnected."""
     session_file = Path(settings.TG_SESSION_NAME).with_suffix('.session')
     if not session_file.exists():
-        print(f'[!] Session file {session_file} not found. Run init_session.py first.')
-        raise SystemExit(1)
+        print(f'[!] Session file {session_file} not found.\n'
+              '[!] A new session will be created. You may be asked to enter the '
+              'login code and 2FA password.')
+        session_file.parent.mkdir(parents=True, exist_ok=True)
 
     await bot.start(
         phone=settings.TG_PHONE_NUMBER,
