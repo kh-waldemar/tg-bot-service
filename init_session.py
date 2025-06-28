@@ -17,10 +17,23 @@ def load_env(path: Path) -> None:
 
 
 def get_session_path(raw_path: str) -> Path:
+    """Return a path for the session file.
+
+    When executed outside of the Docker container the environment variable is
+    typically set to ``/sessions/<name>`` which does not exist locally.  In this
+    case we store the file inside the repository's ``sessions/`` directory so it
+    gets mounted into the container.  When the ``/sessions`` directory exists
+    (inside the container) the path is used as-is.
+    """
+
     path = Path(raw_path)
-    if path.is_absolute():
-        if path.parts[:2] == ('', 'sessions'):
+
+    if path.is_absolute() and path.parts[:2] == ('/', 'sessions'):
+        # If running locally ``/sessions`` won't exist.  Save the file into the
+        # repository's sessions folder instead so Docker can mount it.
+        if not Path('/sessions').exists():
             path = Path('sessions') / path.name
+
     return path
 
 
