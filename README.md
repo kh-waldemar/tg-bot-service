@@ -72,14 +72,14 @@ The receiver will serve downloaded files on `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_
 4.  Docker Compose loads the `.env` file automatically for both services (see
    `env_file` in `docker-compose.yml`).
 5.  Set `X_API_TOKEN` in `.env` and include this token in the `x-api-key` header when calling the sender API.
-6.  Run `python init_session.py` once outside of Docker to create the Telegram
-    session.  The script reads credentials from `.env` and stores the session
-    file inside `sessions/`.  When executed locally the script automatically
-    rewrites the `/sessions/<name>` path from the environment to the local
-    `sessions/` directory so the file is visible to the containers.
-7.  Start the services with `docker-compose up`. They will reuse the saved
-    session file without prompting for the code again.  If the file is missing
-    the receiver will exit with a helpful message.
+6.  You can pre-create a session by running `python init_session.py` once
+    outside of Docker.  The script reads credentials from `.env` and stores the
+    session file inside `sessions/`.  When executed locally the script
+    automatically rewrites the `/sessions/<name>` path from the environment to
+    the local `sessions/` directory so the file is visible to the containers.
+7.  Start the services with `docker-compose up`. If the session file is missing
+    the receiver will prompt for the login code and create it automatically on
+    the first run.
 8.  Ensure `TG_API_ID` and `TG_API_HASH` are taken from a **user** application created on [my.telegram.org](https://my.telegram.org) and not from a bot. Otherwise login will fail.
 9.  During image build the latest Telethon is installed automatically. If you build images manually, update Telethon with `pip install -U telethon`.
 
