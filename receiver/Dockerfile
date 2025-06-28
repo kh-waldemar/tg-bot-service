@@ -7,7 +7,6 @@ RUN mkdir /receiver && apt-get update
 WORKDIR /receiver
 
 COPY ./receiver/pyproject.toml /receiver/
-COPY ./receiver/poetry.lock /receiver/
 RUN pip install poetry && poetry config virtualenvs.create false && \
     poetry install --no-root && \
     pip install --no-cache-dir -U telethon && \

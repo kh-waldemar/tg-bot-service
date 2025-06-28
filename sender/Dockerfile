@@ -7,7 +7,6 @@ RUN mkdir /sender && apt-get update
 WORKDIR /sender
 
 COPY ./pyproject.toml /sender/
-COPY ./poetry.lock /sender/
 RUN pip install poetry && poetry config virtualenvs.create false && \
     poetry install --no-root && \
     pip install --no-cache-dir -U telethon
