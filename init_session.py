@@ -13,6 +13,9 @@ def load_env(path: Path) -> None:
             if not line or line.startswith('#') or '=' not in line:
                 continue
             key, _, value = line.partition('=')
+            # Remove any inline comments like ``VALUE  # comment`` and trim
+            # whitespace so values match what Docker Compose will load.
+            value = value.split('#', 1)[0].strip()
             os.environ.setdefault(key, value)
 
 
@@ -29,10 +32,10 @@ def get_session_path(raw_path: str) -> Path:
     path = Path(raw_path)
 
     if path.is_absolute() and path.parts[:2] == ('/', 'sessions'):
-        # If running locally ``/sessions`` won't exist.  Save the file into the
-        # repository's sessions folder instead so Docker can mount it.
-        if not Path('/sessions').exists():
-            path = Path('sessions') / path.name
+        # Always store the session inside the repository so Docker can mount it.
+        # This avoids accidentally writing to an existing ``/sessions``
+        # directory on the host which would not be shared with the containers.
+        path = Path('sessions') / path.name
 
     return path
 
