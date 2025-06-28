@@ -73,10 +73,10 @@ The receiver will serve downloaded files on `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_
    `env_file` in `docker-compose.yml`).
 5.  Set `X_API_TOKEN` in `.env` and include this token in the `x-api-key` header when calling the sender API.
 6.  You can pre-create a session by running `python init_session.py` once
-    outside of Docker.  The script reads credentials from `.env` and stores the
-    session file inside `sessions/`.  When executed locally the script
-    automatically rewrites the `/sessions/<name>` path from the environment to
-    the local `sessions/` directory so the file is visible to the containers.
+    outside of Docker.  The script reads credentials from `.env` and always
+    stores the session file inside `sessions/` in the repository so it will be
+    mounted into the containers.  Any absolute `/sessions/<name>` path from the
+    environment is rewritten automatically to this local directory.
 7.  Start the services with `docker-compose up`. If the session file is missing
     the receiver will prompt for the login code and create it automatically on
     the first run.
