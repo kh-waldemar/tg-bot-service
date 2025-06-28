@@ -82,10 +82,23 @@ The receiver will serve downloaded files on `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_
     the receiver will exit with a helpful message.
 8.  Ensure `TG_API_ID` and `TG_API_HASH` are taken from a **user** application created on [my.telegram.org](https://my.telegram.org) and not from a bot. Otherwise login will fail.
 9.  During image build the latest Telethon is installed automatically. If you build images manually, update Telethon with `pip install -U telethon`.
+
 10.  Media files are served directly by the receiver service on port `8181`, making
-   any downloaded files reachable as
-   `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_MEDIA_PORT>/media/<filename>` without any
-   extra web server.
+    any downloaded files reachable as
+    `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_MEDIA_PORT>/media/<filename>` without any
+    extra web server.
+
+### Viewing incoming messages
+
+The receiver prints every message it receives to STDOUT. When running via
+Docker Compose you can follow the output with:
+
+```shell
+docker-compose logs -f receiver
+```
+
+This works even if no webhook is configured and helps to verify that the bot is
+receiving events.
 
 Use the **sender** service endpoints to send messages from your server to Telegram.
 

@@ -24,16 +24,12 @@ async def main() -> None:
         print(f'[!] Session file {session_file} not found. Run init_session.py first.')
         raise SystemExit(1)
 
-    await bot.connect()
-
-    if not await bot.is_user_authorized():
-        await bot.start(
-            phone=settings.TG_PHONE_NUMBER,
-            code_callback=_ask_code,
-            password=_ask_password,
-        )
-    else:
-        print(f'[+] Reusing existing session {session_file}')
+    await bot.start(
+        phone=settings.TG_PHONE_NUMBER,
+        code_callback=_ask_code,
+        password=_ask_password,
+    )
+    print(f'[+] Using session {session_file}')
 
     print('Bot is running!')
     await bot.run_until_disconnected()
