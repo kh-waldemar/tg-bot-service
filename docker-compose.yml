@@ -16,7 +16,7 @@ services:
           - ./userbot_media:/media:ro
         tty: true
     receiver:
-        command: sh -c "python3 main.py & python3 media_server.py"
+        command: sh -c "python3 media_server.py & python3 main.py"
         build:
             context: .
             dockerfile: receiver/Dockerfile
