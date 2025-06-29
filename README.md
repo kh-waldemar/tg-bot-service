@@ -144,7 +144,110 @@ The receiver will serve downloaded files on `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_
 
 Use the **sender** service endpoints to send messages from your server to Telegram.
 
-**Sender** service API can be found on http://0.0.0.0:8001 and docs on http://0.0.0.0:8001/docs
+## API Reference
+
+The sender service exposes a small HTTP API on port `8001`.
+The base URL for all endpoints is:
+
+```
+http://<HOST>:8001/api_v1
+```
+
+Every request must include the header `x-api-key` with the value
+set in `X_API_TOKEN` inside your `.env` file.  All methods accept and
+return JSON.
+
+### Endpoints
+
+| Method | Path | Description |
+| ------ | ---- | ----------- |
+| `POST` | `/sendMessage` | Send a plain text message |
+| `POST` | `/sendPhoto` | Send an image file |
+| `POST` | `/sendDocument` | Send a document file |
+| `POST` | `/sendAudio` | Send an audio file |
+| `POST` | `/sendVoice` | Send a voice message |
+| `POST` | `/sendVideo` | Send a video file |
+| `POST` | `/editMessageText` | Edit a previously sent text |
+| `POST` | `/deleteMessage` | Delete a message |
+
+Below are the request payloads for each endpoint:
+
+`POST /sendMessage`
+```json
+{
+  "chat_id": 123456789,
+  "text": "Hello",
+  "parse_mode": "HTML"
+}
+```
+
+`POST /sendPhoto`
+```json
+{
+  "chat_id": 123456789,
+  "photo": "<file url or base64>",
+  "caption": "optional caption"
+}
+```
+
+`POST /sendDocument`
+```json
+{
+  "chat_id": 123456789,
+  "document": "<file url or base64>",
+  "caption": "optional caption"
+}
+```
+
+`POST /sendAudio`
+```json
+{
+  "chat_id": 123456789,
+  "audio": "<file url or base64>",
+  "caption": "optional caption"
+}
+```
+
+`POST /sendVoice`
+```json
+{
+  "chat_id": 123456789,
+  "voice": "<file url or base64>",
+  "caption": "optional caption"
+}
+```
+
+`POST /sendVideo`
+```json
+{
+  "chat_id": 123456789,
+  "video": "<file url or base64>",
+  "caption": "optional caption"
+}
+```
+
+`POST /editMessageText`
+```json
+{
+  "chat_id": 123456789,
+  "message_id": 1,
+  "text": "Updated text",
+  "parse_mode": "HTML"
+}
+```
+
+`POST /deleteMessage`
+```json
+{
+  "chat_id": 123456789,
+  "message_id": 1
+}
+```
+
+Successful responses include `{"ok": true, "result": ...}` where `result`
+contains the sent Telegram message data.  Media uploads return the file
+name and a public `file_url` that can be fetched from
+`http://<HOST>:8001/media/<file_name>`.
 
 ### Example webhook payload
 
