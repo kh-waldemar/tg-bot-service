@@ -1,6 +1,62 @@
 # Telegram Bot Microservice
 Basis for extendable, high-performance Telegram Bot microservice.
 
+For instructions in Ukrainian see [docs/setup_uk.md](docs/setup_uk.md).
+
+## Quick Start
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/kh-waldemar/tg-bot-service.git
+   cd tg-bot-service
+   ```
+
+2. **Copy and edit the environment file**
+   ```bash
+   cp .env.example .env
+   nano .env
+   ```
+   Fill in your Telegram `API ID`, `API HASH`, phone number, webhook URL and other settings.
+
+3. **Create the required directories**
+   ```bash
+   mkdir -p sessions
+   mkdir -p userbot_media
+   ```
+
+4. **Build the Docker images**
+   ```bash
+   docker compose build
+   ```
+
+5. **Authorize Telegram**
+   Run the **receiver** container interactively and follow the login prompts:
+   ```bash
+   docker run -it --rm \
+     -v $(pwd)/sessions:/sessions \
+     -v $(pwd)/userbot_media:/userbot_media \
+     --env-file .env \
+     tg-bot-service-receiver \
+     python3 main.py
+   ```
+   Enter the verification code and 2FA password if asked. When `Bot is running!` appears, press `Ctrl+C` to stop the container.
+
+6. **Start all services in the background**
+   ```bash
+   docker compose up -d
+   ```
+
+7. **Check container status**
+   ```bash
+   docker compose ps
+   ```
+
+8. **Follow the logs**
+   ```bash
+   docker compose logs -f
+   ```
+
+After successful login the session is saved inside `sessions/`. Delete the files in that directory if you ever need to re-authorize or switch accounts.
 
 ## Tech Stack
 - FastAPI
