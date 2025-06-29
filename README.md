@@ -60,6 +60,10 @@ And start up services:
 docker-compose up
 ```
 
+On the first run the **receiver** container will prompt for your Telegram login
+code (and 2FA password if enabled). Enter the values directly in the container
+when prompted.
+
 The receiver will serve downloaded files on `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_MEDIA_PORT>/media`. Media links in webhook payloads are generated automatically using these variables.
 
 ### Configuration
