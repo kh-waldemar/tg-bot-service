@@ -53,6 +53,8 @@ Root directory has docker-compose file through which whole microservice can be s
 ```shell
 docker-compose build
 ```
+If you modify `pyproject.toml` in either service, run `poetry lock` in that
+directory before rebuilding so the lock file matches the dependencies.
 And start up services:
 ```shell
 docker-compose up
