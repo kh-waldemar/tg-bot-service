@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from urllib.parse import urlparse
 
 from pathlib import Path
 
@@ -10,6 +11,19 @@ from config import bot, settings
 
 
 MEDIA_DIR = Path(__file__).resolve().parents[1] / 'media'
+
+
+def _build_media_url(filename: str) -> str:
+    """Return public URL for a downloaded media file."""
+    parsed = urlparse(settings.PUBLIC_BASE_URL)
+    scheme = parsed.scheme or "http"
+    port = settings.PUBLIC_MEDIA_PORT
+    include_port = not (
+        (scheme == "http" and port == 80) or (scheme == "https" and port == 443)
+    )
+    if include_port:
+        return f"{scheme}://{settings.PUBLIC_MEDIA_HOST}:{port}/media/{filename}"
+    return f"{scheme}://{settings.PUBLIC_MEDIA_HOST}/media/{filename}"
 
 
 @bot.on(events.NewMessage)
@@ -57,9 +71,7 @@ async def forward_all_messages(event) -> None:
         filename = f"{msg.id}_{media_type}{ext}"
         MEDIA_DIR.mkdir(exist_ok=True)
         await msg.download_media(file=MEDIA_DIR / filename)
-        media_url = (
-            f"http://{settings.PUBLIC_MEDIA_HOST}:{settings.PUBLIC_MEDIA_PORT}/media/{filename}"
-        )
+        media_url = _build_media_url(filename)
 
         media = {"type": media_type, "file_id": file_id}
 
@@ -88,9 +100,7 @@ async def forward_all_messages(event) -> None:
             filename = f"{reply_msg.id}_{r_media_type}{ext}"
             MEDIA_DIR.mkdir(exist_ok=True)
             await reply_msg.download_media(file=MEDIA_DIR / filename)
-            r_media_url = (
-                f"http://{settings.PUBLIC_MEDIA_HOST}:{settings.PUBLIC_MEDIA_PORT}/media/{filename}"
-            )
+            r_media_url = _build_media_url(filename)
 
         reply_to_message = {
             "message_id": reply_msg.id,

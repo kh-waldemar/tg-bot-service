@@ -120,7 +120,7 @@ On the first run the **receiver** container will prompt for your Telegram login
 code (and 2FA password if enabled). Enter the values directly in the container
 when prompted.
 
-The receiver will serve downloaded files on `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_MEDIA_PORT>/media`. Media links in webhook payloads are generated automatically using these variables.
+The receiver will serve downloaded files on `<scheme>://<PUBLIC_MEDIA_HOST>[:<PUBLIC_MEDIA_PORT>]/media`. The port is omitted when it matches the default for the chosen scheme (80 for HTTP, 443 for HTTPS). Media links in webhook payloads are generated automatically using these variables.
 
 ### Configuration
 
@@ -129,7 +129,7 @@ The receiver will serve downloaded files on `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_
    In your `.env` set `TG_SESSION_NAME=/sessions/tg_userbot` (or any name inside `/sessions`).
 3.  Ensure the `userbot_media` directory exists. Docker Compose mounts this path
    into both services so that downloaded files persist and can be served over HTTP
-   at `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_MEDIA_PORT>/media/<filename>`.
+   at `<scheme>://<PUBLIC_MEDIA_HOST>[:<PUBLIC_MEDIA_PORT>]/media/<filename>`.
 4.  Docker Compose loads the `.env` file automatically for both services (see
    `env_file` in `docker-compose.yml`).
 5.  Set `X_API_TOKEN` in `.env` and include this token in the `x-api-key` header when calling the sender API.
@@ -139,7 +139,7 @@ The receiver will serve downloaded files on `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_
 8.  During image build the latest Telethon is installed automatically. If you build images manually, update Telethon with `pip install -U telethon`.
 9.  Media files are served directly by the receiver service on port `8181`, making
    any downloaded files reachable as
-   `http://<PUBLIC_MEDIA_HOST>:<PUBLIC_MEDIA_PORT>/media/<filename>` without any
+   `<scheme>://<PUBLIC_MEDIA_HOST>[:<PUBLIC_MEDIA_PORT>]/media/<filename>` without any
    extra web server.
 
 Use the **sender** service endpoints to send messages from your server to Telegram.
@@ -274,7 +274,7 @@ When a user replies to a message, the receiver forwards the update to the config
     "reply_to_message": {
       "message_id": 1234,
       "text": "Оригінальне повідомлення",
-      "media_url": "http://example.com:8181/media/1234_photo.jpg",
+      "media_url": "https://example.com/media/1234_photo.jpg",
       "media_type": "photo",
       "sender_id": 1111111,
       "sender_name": "Other",
